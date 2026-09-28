@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Polaroid</title>
+<style>
+ body{margin:0;text-align:center;font-family:sans-serif}
+ #cadre{display:inline-block;background:#fff;padding:20px 20px 16px;box-shadow:0 6px 18px rgba(0,0,0,.3)}
+ video{width:320px;height:240px;background:#222;display:block}
+ input{width:300px;margin-top:14px;border:0;text-align:center;font:22px 'Segoe Print','Comic Sans MS',cursive}
+ button,a{margin:10px 4px;padding:8px 16px;font-size:16px}
+ canvas{display:none;box-shadow:0 6px 18px rgba(0,0,0,.3)}
+</style></head>
+<body>
+<div id="cadre">
+  <video id="v" autoplay playsinline muted></video>
+  <input id="nom" placeholder="Ton prénom">
+</div><br>
+<button onclick="photo()">📸 Prendre la photo</button>
+<canvas id="c" width="360" height="340"></canvas><br>
+<a id="dl" download="polaroid.png" style="display:none">Télécharger</a>
+<script>
+const v=document.getElementById('v'), c=document.getElementById('c'), ctx=c.getContext('2d');
+navigator.mediaDevices.getUserMedia({video:true})
+  .then(s=>v.srcObject=s)
+  .catch(()=>alert("Accès à la caméra refusé ou indisponible"));
+function photo(){
+  ctx.fillStyle='#fff'; ctx.fillRect(0,0,360,340);
+  ctx.drawImage(v,20,20,320,240);
+  ctx.fillStyle='#333'; ctx.font='24px cursive'; ctx.textAlign='center';
+  ctx.fillText(document.getElementById('nom').value,180,305);
+  document.getElementById('cadre').style.display='none';
+  c.style.display='inline-block';
+  const dl=document.getElementById('dl');
+  dl.href=c.toDataURL('image/png'); dl.style.display='inline';
+}
+</script>
+</body></html>
