@@ -3,12 +3,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Polaroid</title>
 <style>
- body{margin:0;text-align:center;font-family:sans-serif}
- #cadre{display:inline-block;background:#fff;padding:20px 20px 16px;box-shadow:0 6px 18px rgba(0,0,0,.3)}
- video{width:320px;height:240px;background:#222;display:block}
- input{width:300px;margin-top:14px;border:0;text-align:center;font:22px 'Segoe Print','Comic Sans MS',cursive}
- button,a{margin:10px 4px;padding:8px 16px;font-size:16px}
- canvas{display:none;box-shadow:0 6px 18px rgba(0,0,0,.3)}
+ body{margin:0;padding:10px;text-align:center;font-family:sans-serif}
+ #cadre{display:inline-block;max-width:95%;background:#fff;padding:45px 45px 36px;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+ video{width:720px;max-width:100%;aspect-ratio:4/3;background:#222;display:block}
+ input{width:90%;margin-top:28px;border:0;text-align:center;font:48px 'Segoe Print','Comic Sans MS',cursive}
+ button,a{margin:18px 6px;padding:12px 26px;font-size:22px}
+ canvas{display:none;max-width:95%;height:auto;box-shadow:0 10px 30px rgba(0,0,0,.3)}
 </style></head>
 <body>
 <div id="cadre">
@@ -16,18 +16,18 @@
   <input id="nom" placeholder="Ton prénom">
 </div><br>
 <button onclick="photo()">📸 Prendre la photo</button>
-<canvas id="c" width="360" height="340"></canvas><br>
+<canvas id="c" width="810" height="765"></canvas><br>
 <a id="dl" download="polaroid.png" style="display:none">Télécharger</a>
 <script>
 const v=document.getElementById('v'), c=document.getElementById('c'), ctx=c.getContext('2d');
 navigator.mediaDevices.getUserMedia({video:true})
   .then(s=>v.srcObject=s)
-  .catch(()=>alert("Accès à la caméra refusé ou indisponible"));
+  .catch(e=>alert("Caméra indisponible : "+e.name));
 function photo(){
-  ctx.fillStyle='#fff'; ctx.fillRect(0,0,360,340);
-  ctx.drawImage(v,20,20,320,240);
-  ctx.fillStyle='#333'; ctx.font='24px cursive'; ctx.textAlign='center';
-  ctx.fillText(document.getElementById('nom').value,180,305);
+  ctx.fillStyle='#fff'; ctx.fillRect(0,0,810,765);
+  ctx.drawImage(v,45,45,720,540);
+  ctx.fillStyle='#333'; ctx.font='54px cursive'; ctx.textAlign='center';
+  ctx.fillText(document.getElementById('nom').value,405,690);
   document.getElementById('cadre').style.display='none';
   c.style.display='inline-block';
   const dl=document.getElementById('dl');
